@@ -1,51 +1,40 @@
 
+let searchButton = document.getElementById('search-button');
+searchButton.addEventListener('click', function() {
+let word = document.querySelector('#search-bar');
+console.log(word.value);
+let url = "http://recipepuppyproxy.herokuapp.com/api/?q=";
 
-fetch("http://recipepuppyproxy.herokuapp.com/api/?q=omelet")
+fetch(url + word.value)
   .then(
     function(response) {
       response.json().then(function(data) {
-     let recipe = '';
+        let recipe = '';
         console.log(data.results);
 
+        for (let i = 0; i < data.results.length; i++) {
+          let idk = document.getElementById('idk');
 
-for (let i = 0; i < data.results.length; i++) {
+          recipe += `
+            <div class="recipe">
+              <p>Title: ${data.results[i].title}</p>
+              <p>Ingredients: ${data.results[i].ingredients}</p>
+              <a href="${data.results[i].href}">Recipe Link</a>
+              <br>
+              <img src="${data.results[i].thumbnail || "http://via.placeholder.com/110x80"}" alt="recipe image">
+            </div>
+          `;
 
-let idk = document.getElementById('idk');
+          idk.innerHTML = recipe
+        }
+        // closing for for loop
 
+        // eventListener was here, moved to top
 
-    recipe += `
-    <div class="recipe">
-      <p>Title: ${data.results[i].title}</p>
-      <p>Ingredients: ${data.results[i].ingredients}</p>
-      <a href="${data.results[i].href}">Recipe Link</a>
-      <br>
-      <img src="${data.results[i].thumbnail || "http://via.placeholder.com/110x80"}" alt="recipe image">
-    </div>
-    `
-    // if (data.results[i].thumbnail === " ") {
-    //   let data.results[i].thumbnail = "http://via.placeholder.com/350x150";
-    // }
-idk.innerHTML = recipe
-  };
-})
+        })
+        // closing for eventlistener and its anon. function
 
-});
-
-let searchButton = document.getElementById('search-button');
-searchButton.addEventListener('click',callBack);
-function callback(){
-
-}
-
-  // .includes will let you search for one word out of a string (maybe)
-
-// href: "http://www.recipezaar.com/Baked-Omelet-With-Broccoli-Tomato-325014"
-// ingredients
-// :
-// "milk, cottage cheese, broccoli, cheddar cheese, basil, onion powder, eggs, garlic powder, roma tomato, salt"
-// thumbnail
-// :
-// "http://img.recipepuppy.com/123889.jpg"
-// title
-// :
-// "Baked Omelet With Broccoli &amp; Tomato"
+      })
+      // closing for second .then and function(data)
+    });
+    // closing for first .then and function(response)
