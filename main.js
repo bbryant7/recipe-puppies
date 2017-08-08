@@ -1,31 +1,41 @@
 
+
 fetch("http://recipepuppyproxy.herokuapp.com/api/?q=omelet")
   .then(
     function(response) {
       response.json().then(function(data) {
-        console.log(data);
-        display(data);
-      });
-    }
-  )
-
-  function display(data){
+     let recipe = '';
+        console.log(data.results);
 
 
+for (let i = 0; i < data.results.length; i++) {
 
 let idk = document.getElementById('idk');
 
-    let recipe = `
+
+    recipe += `
     <div class="recipe">
-      <p>title: ${data.results[0].title}</p>
-      <p>ingredients: ${data.results[0].ingredients}</p>
-      <a href="${data.results[0].href}">Recipe Link</a>
+      <p>Title: ${data.results[i].title}</p>
+      <p>Ingredients: ${data.results[i].ingredients}</p>
+      <a href="${data.results[i].href}">Recipe Link</a>
       <br>
-      <img src="${data.results[0].thumbnail}" alt="recipe image">
+      <img src="${data.results[i].thumbnail || "http://via.placeholder.com/110x80"}" alt="recipe image">
     </div>
     `
-idk.innerHTML = recipe;
+    // if (data.results[i].thumbnail === " ") {
+    //   let data.results[i].thumbnail = "http://via.placeholder.com/350x150";
+    // }
+idk.innerHTML = recipe
   };
+})
+
+});
+
+let searchButton = document.getElementById('search-button');
+searchButton.addEventListener('click',callBack);
+function callback(){
+
+}
 
   // .includes will let you search for one word out of a string (maybe)
 
